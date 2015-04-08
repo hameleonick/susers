@@ -1,0 +1,27 @@
+<form action="/session/create" method="POST">
+    <h2>Please sing in...</h2>
+
+    <% if(flash && flash.err){ %>
+
+    <ul>
+
+        <% Object.keys(flash.err).forEach(function(error){ %>
+
+
+            <li>
+                <%= error %> :
+                <%= JSON.stringify(flash.err[error]) %>
+            </li>
+
+        <% })%>
+
+    </ul>
+
+    <% } %>
+
+
+    <input type="text" placeholder="Email address" name="email">
+    <input type="password" placeholder="Password" name="password">
+    <input type="submit" value="Sing-in">
+    <input type="hidden" name="_csrf" value="<%= _csrf %>">
+</form>
