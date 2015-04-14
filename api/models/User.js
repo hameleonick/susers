@@ -26,6 +26,13 @@ module.exports = {
             email: true,
             unique: true
         },
+
+        admin:{
+            type: "boolean",
+            defaultsTo: false
+
+        },
+
         encryptedPassword:{
             type: "string"
         },
@@ -47,6 +54,19 @@ module.exports = {
         this.findOne({"email":email}, function findByEmail(err, user){
 
         });
+    },
+
+    beforeValidation:function(values, next){
+        console.log(values.admin)
+        if(typeof values.admin !== 'undefined'){
+            if(values.admin){
+                values.admin = true;
+            } else{
+                values.admin = false;
+            }
+        }
+
+        next();
     },
 
     beforeCreate: function(values, next){

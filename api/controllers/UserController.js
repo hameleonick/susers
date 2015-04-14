@@ -23,7 +23,7 @@ module.exports = {
 
 //            res.json(user);
 
-            res.redirect("/user/show/"+user.id);
+            res.redirect('/session/new');
         });
 
     },

@@ -1,3 +1,8 @@
+<% if(user.admin) {%>
+<p>ADMIN</p>
+<% } else {%>
+<p>REGULAR USER</p>
+<% } %>
 <p><%= user.name %></p>
 <p><%= user.title %></p>
 <hr>
