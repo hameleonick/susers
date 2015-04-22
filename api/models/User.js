@@ -57,13 +57,12 @@ module.exports = {
     },
 
     beforeValidation:function(values, next){
-        console.log(values.admin)
-        if(typeof values.admin !== 'undefined'){
-            if(values.admin){
-                values.admin = true;
-            } else{
-                values.admin = false;
-            }
+
+
+        if(values.admin){
+            values.admin = true;
+        } else{
+            values.admin = false;
         }
 
         next();
