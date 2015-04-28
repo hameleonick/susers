@@ -21,6 +21,8 @@ module.exports = {
                 return res.redirect("/user/new")
             }
 
+
+            User.publishCreate(user);
 //            res.json(user);
 
             res.redirect('/session/new');
@@ -69,13 +71,30 @@ module.exports = {
 
             User.destroy(req.param('id'), function userDestroyed(err){
                if(err) return next(err);
+
+                User.publishDestroy(req.param('id'));
+
+                res.redirect("/user");
             });
 
-            res.redirect("/user");
+
         });
+    },
+
+    subscribe: function(req, res){
+
+        User.find(function foundUsers(err, users){
+
+            User.subscribe(req.socket);
+
+            User.subscribe(req.socket, users, ['create', 'destroy', 'update']);
+
+            res.send(200, {test:"test1111"});
+
+        });
+
+
     }
-
-
 
 };
 

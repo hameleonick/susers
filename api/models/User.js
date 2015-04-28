@@ -33,6 +33,11 @@ module.exports = {
 
         },
 
+        online:{
+            type: "boolean",
+            defaultsTo: false
+        },
+
         encryptedPassword:{
             type: "string"
         },
@@ -81,7 +86,6 @@ module.exports = {
             // Store hash in your password DB.
             if(err) return next(err);
             values.encryptedPassword = encryptedPassword;
-            values.online = true;
             next();
         });
 

@@ -58,12 +58,24 @@ module.exports = {
                 req.session.authenticated = true;
                 req.session.User = user;
 
-                if(req.session.User.admin){
-                    res.redirect('/user');
-                    return;
-                }
+                user.online = true;
 
-                res.redirect('/user/show/'+user.id);
+                User.publishUpdate(user.id, {
+                   loggedIn: true,
+                   id: user.id
+                });
+
+                user.save(function(err, user){
+                    if(err) return next(err);
+
+                    if(req.session.User.admin){
+                        res.redirect('/user');
+                        return;
+                    }
+
+                    res.redirect('/user/show/'+user.id);
+                });
+
             });
         });
 
@@ -71,9 +83,33 @@ module.exports = {
     },
 
     destroy: function(req, res, next){
-        req.session.destroy();
 
-        res.redirect('/session/new');
+
+        if(!req.session.User && !req.session.User.id)
+            res.redirect('/session/new');
+
+        User.findOne(req.session.User.id, function foundUser(err, user){
+            if(err) return next(err);
+
+            var userId = req.session.User.id;
+            console.log(user)
+            user.online = false;
+
+            User.publishUpdate(user.id, {
+                loggedIn: false,
+                id: user.id
+            });
+
+            user.save(function(err, user){
+                if(err) return next(err);
+                console.log(user)
+                req.session.destroy();
+                res.redirect('/session/new');
+            });
+
+        });
+
+
     }
 };
 

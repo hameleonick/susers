@@ -2,8 +2,8 @@
  * Created by nkapravchuk on 4/14/15.
  */
 module.exports = function(req, res ,ok){
-console.log(req.session.User.id)
-    var sessionUserMatchesId = req.session.User.id === req.param('id');
+//console.log(req.param('id')+" userId "+ req.session.User.id)
+    var sessionUserMatchesId = req.session.User.id == req.param('id');
     var isAdmin = req.session.User.admin;
 
 

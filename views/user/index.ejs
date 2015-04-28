@@ -13,6 +13,7 @@
     <% _.each(users, function(user) { %>
     <tr data-id="<%= user.id %>"  data-model="user">
 
+        <td id="online-<%= user.id %>"><% if(user.online) {%> online <% } else {%> offline <% } %> </td>
         <td><%= user.id %></td>
         <td><%= user.name %></td>
         <td><%= user.title %></td>
@@ -39,3 +40,20 @@
 
     <% });%>
 </table>
+
+<script>
+
+    io.socket.on('user',function(obj){
+        console.log(obj);
+
+        if(obj.verb=="updated")
+            document.getElementById("online-"+obj.data.id).innerText = obj.data.loggedIn ? "online" : "offline";
+        else if(obj.verb=="created")
+        {
+            alert("new user("+obj.data.name+" "+obj.data.title+") was created");
+        }
+
+    });
+
+
+</script>
